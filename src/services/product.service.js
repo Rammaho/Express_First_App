@@ -1,59 +1,55 @@
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
+const { Product } = require('../models');
 
-class ProductService {
-  // create a product
-  constructor({ Product }) {
-    this.Product = Product;
+// method to create product
+const createProduct = async (productBody) => {
+  try {
+    const newProduct = await Product.create(productBody);
+    return newProduct;
+  } catch (error) {
+    throw new ApiError(httpStatus.BAD_REQUEST, error.message);
   }
+};
 
-  // method to create product
-  async createProduct(productBody) {
-    try {
-      const newProduct = await this.Product.create(productBody);
+// get all products
+const getProducts = async () => {
+  const products = await Product.find();
+  return products;
+};
 
-      return newProduct;
-    } catch (error) {
-      throw new ApiError(httpStatus.BAD_REQUEST, error.message);
-    }
+// get product by id
+const getProductById = async (id) => {
+  const product = await Product.findById(id);
+  return product;
+};
+
+// update product by id
+const updateProductById = async (id, productBody) => {
+  const product = await Product.findById(id);
+  if (!product) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
   }
+  await product.set(productBody);
+  await product.save();
+  return product;
+};
 
-  // get product by id
-  async getProductById(id) {
-    const product = await this.Product.findById(id);
-    return product;
+// delete product by id
+const deleteProductById = async (id) => {
+  // delete Product by id
+  const product = await Product.findById(id);
+  if (!product) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
   }
+  await product.remove();
+  return product;
+};
 
-  // update product by id
-  async updateProductById(id, productBody) {
-    const product = await this.Product.findById(id);
-    if (!product) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
-    }
-    await product.set(productBody);
-    await product.save();
-    return product;
-  }
-
-  // get all products
-  async getProducts() {
-    console.log('xxxxxxxx');
-    const products = await this.Product.find();
-
-
-    
-    return products;
-  }
-
-  // delete product by id
-  async deleteProductById(id) {
-    // delete Product by id
-    const product = await this.Product.findById(id);
-    if (!product) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
-    }
-    await product.remove();
-    return product;
-  }
-}
-module.exports = ProductService;
+module.exports = {
+  createProduct,
+  getProducts,
+  getProductById,
+  updateProductById,
+  deleteProductById,
+};

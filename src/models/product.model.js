@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const productReviewsSchema = new mongoose.Schema(
+const productReviewsSchema = mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -23,7 +23,7 @@ const productReviewsSchema = new mongoose.Schema(
   }
 );
 
-const productSchema = new mongoose.Schema(
+const productSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -70,7 +70,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    active: {
+    isActive: {
       type: Boolean,
       default: true,
     },
