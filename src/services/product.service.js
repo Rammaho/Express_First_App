@@ -37,7 +37,11 @@ class ProductService {
 
   // get all products
   async getProducts() {
+    console.log('xxxxxxxx');
     const products = await this.Product.find();
+
+
+    
     return products;
   }
 
