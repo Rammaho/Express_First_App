@@ -46,10 +46,40 @@ const deleteProductById = async (id) => {
   return product;
 };
 
+const addProductReview = async (id, reviewBody) => {
+  const product = await Product.findById(id);
+  if (!product) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+  }
+  await product.reviews.push(reviewBody);
+  await product.save();
+  return product;
+};
+
+// get product reviews by id
+// const getProductReviewsById = async (id) => {
+//   const product = await Product.findById(id);
+//   if (!product) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+//   }
+//   return product.productReviews;
+// };
+
+const getProductPropertyById = async (id, property) => {
+  const product = await Product.findById(id);
+  if (!product) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+  }
+  return product[property];
+};
+
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
   updateProductById,
   deleteProductById,
+  addProductReview,
+  // getProductReviewsById,
+  getProductPropertyById,
 };

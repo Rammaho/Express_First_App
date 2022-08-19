@@ -17,7 +17,7 @@ const createProduct = {
     category: Joi.string().required(),
     isActive: Joi.boolean(),
     isPromoted: Joi.boolean(),
-    productReviews: Joi.array(),
+    reviews: Joi.array(),
   }),
 };
 
@@ -43,7 +43,6 @@ const updateProductById = {
     category: Joi.string().required(),
     isActive: Joi.boolean(),
     isPromoted: Joi.boolean(),
-    productReviews: Joi.array(),
   }),
   params: Joi.object().keys({
     id: Joi.string().custom(objectId),
@@ -56,9 +55,36 @@ const deleteProductById = {
   }),
 };
 
+const addProductReview = {
+  body: Joi.object().keys({
+    userId: Joi.string().custom(objectId),
+    score: Joi.number().required(),
+    description: Joi.string().required(),
+  }),
+  params: Joi.object().keys({
+    id: Joi.string().custom(objectId),
+  }),
+};
+
+// const getProductReviewsById = {
+//   params: Joi.object().keys({
+//     id: Joi.string().custom(objectId),
+//   }),
+// };
+
+const getProductPropertyById = {
+  params: Joi.object().keys({
+    id: Joi.string().custom(objectId),
+    property: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   createProduct,
   getProductById,
   updateProductById,
   deleteProductById,
+  addProductReview,
+  // getProductReviewsById,
+  getProductPropertyById,
 };

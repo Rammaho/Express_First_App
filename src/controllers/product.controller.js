@@ -38,10 +38,34 @@ const deleteProductById = catchAsync(async (req, res) => {
   }
 });
 
+const addProductReview = catchAsync(async (req, res) => {
+  const product = await productService.addProductReview(req.params.id, req.body);
+  if (!product) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+  }
+  res.status(httpStatus.OK).json({ message: 'Product review added successfully', data: product });
+});
+
+// const getProductReviewsById = catchAsync(async (req, res) => {
+//   const product = await productService.getProductReviewsById(req.params.id);
+//   if (!product) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+//   }
+//   res.status(httpStatus.OK).json({ message: 'Product reviews retrieved successfully', data: product });
+// });
+
+const getProductPropertyById = catchAsync(async (req, res) => {
+  const productProperty = await productService.getProductPropertyById(req.params.id, req.params.property);
+  res.status(httpStatus.OK).json({ message: 'Product property retrieved successfully', data: productProperty });
+});
+
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
   updateProductById,
   deleteProductById,
+  addProductReview,
+  // getProductReviewsById,
+  getProductPropertyById,
 };

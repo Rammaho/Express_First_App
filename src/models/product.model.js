@@ -7,15 +7,19 @@ const productReviewsSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
-    rating: {
+    score: {
       type: Number,
       required: true,
       default: 0,
-      enum: [1, 2, 3, 4, 5],
+      enum: [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5],
     },
-    review: {
+    description: {
       type: String,
       default: '',
+    },
+    isPurchaseVerified: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -74,15 +78,20 @@ const productSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    totalRating: {
+    rating: {
       type: Number,
-      default: 0,
+      default() {
+        const rating = this.productReviews
+          ? this.productReviews.reduce((acc, review) => acc + review.score, 0) / this.reviews.length
+          : 0;
+        return Math.round(rating * 2) / 2;
+      },
     },
     isPromoted: {
       type: Boolean,
       default: false,
     },
-    productReviews: {
+    reviews: {
       type: [productReviewsSchema],
       default: [],
     },

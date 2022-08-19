@@ -4,6 +4,7 @@ const userService = require('./user.service');
 const Token = require('../models/token.model');
 const ApiError = require('../utils/ApiError');
 const { tokenTypes } = require('../config/tokens');
+const { Auth } = require('../models');
 
 /**
  * Login with username and password
@@ -90,7 +91,48 @@ const verifyEmail = async (verifyEmailToken) => {
   }
 };
 
+const getAuthById = async (id) => {
+  return Auth.findOne({ _id: id });
+};
+
+// to find if email already exists
+const getAuthByEmail = async (email) => {
+  return Auth.findOne({ email });
+};
+
+// to find if phone number already exists
+const getAuthByPhone = async (phone) => {
+  return Auth.findOne({ mobile: phone });
+};
+
+const updateAuthById = async (authId, updateBody) => {
+  const auth = await getAuthById(authId);
+  if (!auth) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Auth not found');
+  }
+  if (updateBody.email && (await Auth.isEmailTaken(updateBody.email, authId))) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  }
+  Object.assign(auth, updateBody);
+  await auth.save();
+  return auth;
+};
+
+const deleteAuthById = async (authId) => {
+  const auth = await getAuthById(authId);
+  if (!auth) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Auth not found');
+  }
+  await auth.remove();
+  return auth;
+};
+
 module.exports = {
+  getAuthById,
+  getAuthByEmail,
+  getAuthByPhone,
+  updateAuthById,
+  deleteAuthById,
   loginUserWithEmailAndPassword,
   logout,
   refreshAuth,

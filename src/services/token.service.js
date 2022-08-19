@@ -66,23 +66,32 @@ const verifyToken = async (token, type) => {
  * @returns {Promise<Object>}
  */
 const generateAuthTokens = async (user) => {
-  const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
-  const accessToken = generateToken(user.id, accessTokenExpires, tokenTypes.ACCESS);
+  // const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
+  // const accessToken = generateToken(user.id, user.role, accessTokenExpires, tokenTypes.ACCESS);
 
-  const refreshTokenExpires = moment().add(config.jwt.refreshExpirationDays, 'days');
-  const refreshToken = generateToken(user.id, refreshTokenExpires, tokenTypes.REFRESH);
-  await saveToken(refreshToken, user.id, refreshTokenExpires, tokenTypes.REFRESH);
+  // const refreshTokenExpires = moment().add(config.jwt.refreshExpirationDays, 'days');
+  // const refreshToken = generateToken(user.id, refreshTokenExpires, tokenTypes.REFRESH);
+  // await saveToken(refreshToken, user.id, refreshTokenExpires, tokenTypes.REFRESH);
 
-  return {
-    access: {
-      token: accessToken,
-      expires: accessTokenExpires.toDate(),
-    },
-    refresh: {
-      token: refreshToken,
-      expires: refreshTokenExpires.toDate(),
-    },
+  // return {
+  //   access: {
+  //     token: accessToken,
+  //     expires: accessTokenExpires.toDate(),
+  //   },
+  //   refresh: {
+  //     token: refreshToken,
+  //     expires: refreshTokenExpires.toDate(),
+  //   },
+  // };
+  const payload = {
+    sub: user.id,
+    iat: moment().unix(),
+    role: user.role,
+    exp: moment().add(5, 'days').unix(),
   };
+  const { secret } = config.jwt;
+  const jwttoken = jwt.sign(payload, secret);
+  return jwttoken;
 };
 
 /**
