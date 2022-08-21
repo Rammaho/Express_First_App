@@ -1,5 +1,4 @@
-const express = require ('express');
-
+const express = require('express');
 const validate = require('../../middlewares/validate');
 const { packageController } = require('../../controllers');
 const { packageValidation } = require('../../validations');
@@ -15,6 +14,5 @@ router.route('/:id').get(validate(packageValidation.getPackageById), packageCont
 router.route('/:id').patch(validate(packageValidation.updatePackage), packageController.updatePackageById);
 
 router.route('/:id').delete(validate(packageValidation.deletePackage), packageController.deletePackageById);
-
 
 module.exports = router;
