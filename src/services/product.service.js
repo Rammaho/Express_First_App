@@ -73,6 +73,22 @@ const getProductPropertyById = async (id, property) => {
   return product[property];
 };
 
+const updateProductPropertyById = async (id, property, value) => {
+  const product = await Product.findById(id);
+  if (!product) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+  }
+  product[property] = value;
+  await product.save();
+  return product;
+};
+
+// get products by property
+const getProductsByProperty = async (property, value) => {
+  const products = await Product.find({ [property]: value });
+  return products;
+};
+
 module.exports = {
   createProduct,
   getProducts,
@@ -82,4 +98,6 @@ module.exports = {
   addProductReview,
   // getProductReviewsById,
   getProductPropertyById,
+  updateProductPropertyById,
+  getProductsByProperty,
 };

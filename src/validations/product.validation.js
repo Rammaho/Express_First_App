@@ -79,6 +79,23 @@ const getProductPropertyById = {
   }),
 };
 
+const updateProductPropertyById = {
+  params: Joi.object().keys({
+    id: Joi.string().custom(objectId),
+    property: Joi.string().required(),
+  }),
+  body: Joi.object().keys({
+    value: Joi.any().required(),
+  }),
+};
+
+const getProductsByProperty = {
+  params: Joi.object().keys({
+    property: Joi.string().required(),
+    value: Joi.any().required(),
+  }),
+};
+
 module.exports = {
   createProduct,
   getProductById,
@@ -87,4 +104,6 @@ module.exports = {
   addProductReview,
   // getProductReviewsById,
   getProductPropertyById,
+  updateProductPropertyById,
+  getProductsByProperty,
 };
