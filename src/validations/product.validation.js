@@ -11,8 +11,6 @@ const createProduct = {
     howToUse: Joi.string().required(),
     image: Joi.string(),
     sourcePinCode: Joi.string(),
-    sourceAddress: Joi.string(),
-    deliverablePinCodes: Joi.array(),
     quantityAvailable: Joi.number().required(),
     category: Joi.string().required(),
     isActive: Joi.boolean(),
@@ -37,8 +35,6 @@ const updateProductById = {
     howToUse: Joi.string(),
     image: Joi.string(),
     sourcePinCode: Joi.string(),
-    sourceAddress: Joi.string(),
-    deliverablePinCodes: Joi.array(),
     quantityAvailable: Joi.number(),
     category: Joi.string(),
     isActive: Joi.boolean(),
@@ -73,22 +69,22 @@ const getProductPropertyById = {
   }),
 };
 
-const updateProductPropertyById = {
-  params: Joi.object().keys({
-    id: Joi.string().custom(objectId),
-    property: Joi.string().required(),
-  }),
-  body: Joi.object().keys({
-    value: Joi.any().required(),
-  }),
-};
+// const updateProductPropertyById = {
+//   params: Joi.object().keys({
+//     id: Joi.string().custom(objectId),
+//     property: Joi.string().required(),
+//   }),
+//   body: Joi.object().keys({
+//     value: Joi.any().required(),
+//   }),
+// };
 
-const getProductsByProperty = {
-  params: Joi.object().keys({
-    property: Joi.string().required(),
-    value: Joi.any().required(),
-  }),
-};
+// const getProductsByProperty = {
+//   params: Joi.object().keys({
+//     property: Joi.string().required(),
+//     value: Joi.any().required(),
+//   }),
+// };
 
 module.exports = {
   createProduct,
@@ -97,6 +93,6 @@ module.exports = {
   deleteProductById,
   addProductReview,
   getProductPropertyById,
-  updateProductPropertyById,
-  getProductsByProperty,
+  // updateProductPropertyById,
+  // getProductsByProperty,
 };

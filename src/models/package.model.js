@@ -34,18 +34,20 @@ const packageSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    sourcePinCodes: {
+    sourcePinCode: {
       type: String,
     },
     sourceAddress: {
       type: String,
     },
-    deliverablePinCodes: {
-      type: Array,
-    },
     quantityAvailable: {
       type: Number,
-      required: true,
+      default() {
+        if (this.products.length > 0) {
+          return Math.min(...this.products.map((product) => product.quantityAvailable));
+        }
+        return 0;
+      },
     },
     category: {
       type: String,
@@ -68,6 +70,6 @@ const packageSchema = mongoose.Schema(
 packageSchema.plugin(toJSON);
 packageSchema.plugin(paginate);
 
-const Package = mongoose.model('package', packageSchema);
+const Package = mongoose.model('Package', packageSchema);
 
 module.exports = Package;

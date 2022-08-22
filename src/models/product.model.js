@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
 const productReviewsSchema = mongoose.Schema(
+  // add manufacturer
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -62,9 +63,6 @@ const productSchema = mongoose.Schema(
     },
     sourceAddress: {
       type: String,
-    },
-    deliverablePinCodes: {
-      type: Array,
     },
     quantityAvailable: {
       type: Number,

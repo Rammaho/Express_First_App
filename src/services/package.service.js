@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const ApiError = require('../utils/Apierror');
+const ApiError = require('../utils/ApiError');
 const { Package } = require('../models');
 
 const createPackage = async (packageBody) => {
@@ -19,29 +19,29 @@ const getPackages = async () => {
 
 // get package by id
 const getPackageById = async (id) => {
-  const package = await Package.findById(id);
-  return package;
+  const newPackage = await Package.findById(id);
+  return newPackage;
 };
 
 // update package by id
 const updatePackageById = async (id, packageBody) => {
-  const package = await Package.findById(id);
-  if (!package) {
+  const newPackage = await Package.findById(id);
+  if (!newPackage) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Package not found');
   }
-  await package.set(packageBody);
-  await package.save();
-  return package;
+  await newPackage.set(packageBody);
+  await newPackage.save();
+  return newPackage;
 };
 
 // delete package by id
 const deletePackageById = async (id) => {
-  const package = await Package.findById(id);
-  if (!package) {
+  const newPackage = await Package.findById(id);
+  if (!newPackage) {
     throw new ApiError(httpStatus.NOT_FOUND, ' package not found');
   }
-  await package.remove();
-  return package;
+  await newPackage.remove();
+  return newPackage;
 };
 
 // adding package review

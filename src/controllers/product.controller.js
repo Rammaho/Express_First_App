@@ -47,7 +47,7 @@ const addProductReview = catchAsync(async (req, res) => {
   if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
   }
-  res.status(httpStatus.OK).json({ message: 'Product review added successfully', data: product });
+  res.status(httpStatus.CREATED).json({ message: 'Product review added successfully', data: product });
 });
 
 const getProductPropertyById = catchAsync(async (req, res) => {
