@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { productService } = require('../services');
+const pick = require('../utils/pick');
 
 const createProduct = catchAsync(async (req, res) => {
   const product = await productService.createProduct(req.body);
@@ -9,7 +10,10 @@ const createProduct = catchAsync(async (req, res) => {
 });
 
 const getProducts = catchAsync(async (req, res) => {
-  const products = await productService.getProducts();
+  const filter = pick(req.query, ['name', 'category', 'isPromoted', 'isActive']);
+  filter.price = { $gte: req.query.minPrice || 0, $lte: req.query.maxPrice || Infinity };
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const products = await productService.getProducts(filter, options);
   res.status(httpStatus.OK).json({ message: 'Products retrieved successfully', data: products });
 });
 
@@ -46,27 +50,9 @@ const addProductReview = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ message: 'Product review added successfully', data: product });
 });
 
-// const getProductReviewsById = catchAsync(async (req, res) => {
-//   const product = await productService.getProductReviewsById(req.params.id);
-//   if (!product) {
-//     throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
-//   }
-//   res.status(httpStatus.OK).json({ message: 'Product reviews retrieved successfully', data: product });
-// });
-
 const getProductPropertyById = catchAsync(async (req, res) => {
   const productProperty = await productService.getProductPropertyById(req.params.id, req.params.property);
   res.status(httpStatus.OK).json({ message: 'Product property retrieved successfully', data: productProperty });
-});
-
-const updateProductPropertyById = catchAsync(async (req, res) => {
-  const productProperty = await productService.updateProductPropertyById(req.params.id, req.params.property, req.body.value);
-  res.status(httpStatus.OK).json({ message: 'Product property updated successfully', data: productProperty });
-});
-
-const getProductsByProperty = catchAsync(async (req, res) => {
-  const products = await productService.getProductsByProperty(req.params.property, req.params.value);
-  res.status(httpStatus.OK).json({ message: 'Products retrieved successfully', data: products });
 });
 
 module.exports = {
@@ -76,8 +62,5 @@ module.exports = {
   updateProductById,
   deleteProductById,
   addProductReview,
-  // getProductReviewsById,
   getProductPropertyById,
-  updateProductPropertyById,
-  getProductsByProperty,
 };

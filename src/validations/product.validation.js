@@ -29,18 +29,18 @@ const getProductById = {
 
 const updateProductById = {
   body: Joi.object().keys({
-    name: Joi.string().required(),
-    brand: Joi.string().required(),
-    price: Joi.number().required(),
-    description: Joi.string().required(),
-    specifications: Joi.string().required(),
-    howToUse: Joi.string().required(),
+    name: Joi.string(),
+    brand: Joi.string(),
+    price: Joi.number(),
+    description: Joi.string(),
+    specifications: Joi.string(),
+    howToUse: Joi.string(),
     image: Joi.string(),
     sourcePinCode: Joi.string(),
     sourceAddress: Joi.string(),
     deliverablePinCodes: Joi.array(),
-    quantityAvailable: Joi.number().required(),
-    category: Joi.string().required(),
+    quantityAvailable: Joi.number(),
+    category: Joi.string(),
     isActive: Joi.boolean(),
     isPromoted: Joi.boolean(),
   }),
@@ -65,12 +65,6 @@ const addProductReview = {
     id: Joi.string().custom(objectId),
   }),
 };
-
-// const getProductReviewsById = {
-//   params: Joi.object().keys({
-//     id: Joi.string().custom(objectId),
-//   }),
-// };
 
 const getProductPropertyById = {
   params: Joi.object().keys({
@@ -102,7 +96,6 @@ module.exports = {
   updateProductById,
   deleteProductById,
   addProductReview,
-  // getProductReviewsById,
   getProductPropertyById,
   updateProductPropertyById,
   getProductsByProperty,

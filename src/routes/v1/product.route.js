@@ -29,14 +29,4 @@ router
 // get product property
 router.route('/:id/:property').get(authUser(), productController.getProductPropertyById);
 
-// update product property
-router
-  .route('/:id/:property')
-  .patch(authAdmin(), validate(productValidation.updateProductPropertyById), productController.updateProductPropertyById);
-
-// get products by property
-router
-  .route('/:property/:value')
-  .get(authUser(), validate(productValidation.getProductsByProperty), productController.getProductsByProperty);
-
 module.exports = router;

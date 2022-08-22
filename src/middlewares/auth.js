@@ -74,7 +74,7 @@ const authUser = () => async (req, res, next) => {
     // const bancheck = await checkBanned(subid);
     // console.log(bancheck)
     // const sessionbancheck = await SessionCheck(token);
-    if (subidrole !== 'user' && subidrole !== 'admin') {
+    if (subidrole !== 'user' && subidrole !== 'admin' && subidrole !== 'doctor') {
       res.status(httpStatus.UNAUTHORIZED).json({ message: 'You dont have Access to these resources' });
     }
     next();
