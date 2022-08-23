@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 const axios = require('axios');
+const Pickrr = require('../models/pickrr.order.model');
 
 const placeOrder = async (orderBody) => {
   const {
@@ -38,6 +39,7 @@ const placeOrder = async (orderBody) => {
     .catch((err) => {
       return err.response.data;
     });
+  await Pickrr.create(orderBody);
   return response;
 };
 

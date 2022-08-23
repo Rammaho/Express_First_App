@@ -5,7 +5,7 @@ const productRoute = require('./product.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 const packageRoute = require('./package.route');
-const pickrrRoute = require('./pickrr.route');
+const pickrrRoute = require('./pickrr.order.route');
 
 const router = express.Router();
 
