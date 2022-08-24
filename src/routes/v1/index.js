@@ -6,6 +6,7 @@ const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 const packageRoute = require('./package.route');
 const pickrrRoute = require('./pickrr.order.route');
+const cartRoute = require('./cart.route');
 
 const router = express.Router();
 
@@ -29,6 +30,10 @@ const defaultRoutes = [
   {
     path: '/pickrr',
     route: pickrrRoute,
+  },
+  {
+    path: '/cart',
+    route: cartRoute,
   },
 ];
 

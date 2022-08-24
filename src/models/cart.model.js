@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Product = require('./product.model');
 const Package = require('./package.model');
-const { toJSON, paginate } = require('../../OLD_MODELS/plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const CartSchema = new mongoose.Schema(
   {
@@ -23,14 +23,16 @@ const CartSchema = new mongoose.Schema(
     totalCart: {
       type: Number,
       default() {
-        return (
-          this.products.reduce((product) => product.price, 0) + this.packages.reduce((onePackage) => onePackage.price, 0)
-        ); // package is reserved keyword
-      },
-    },
-    active: {
-      type: Boolean,
-      default: true,
+        try {
+          const total =
+            this.products.reduce((product) => product.price, 0) + this.packages.reduce((onePackage) => onePackage.price, 0);
+          if (total) {
+            return total;
+          }
+        } catch (err) {
+          return 0;
+        }
+      }, // package is reserved keyword
     },
   },
   { timestamps: true }
